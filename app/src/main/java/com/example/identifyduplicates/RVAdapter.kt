@@ -1,14 +1,19 @@
 package com.example.identifyduplicates
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class RVAdapter (
+class RVAdapter(
     private val listFruits: ArrayList<String>
-        ): RecyclerView.Adapter<RVAdapter.NewViewHolder>() {
+) : RecyclerView.Adapter<RVAdapter.NewViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -23,14 +28,51 @@ class RVAdapter (
     }
 
     class NewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textView = itemView.findViewById<TextView>(R.id.textView)
+        val etInput = itemView.findViewById<EditText>(R.id.etInput)
     }
 
     override fun onBindViewHolder(holder: NewViewHolder, position: Int) {
-        holder.textView.text = listFruits[position]
+
+        val etInput = holder.etInput
+
+        etInput.setText(listFruits[position])
+        etInput.addTextChangedListener(textWatcher(etInput, listFruits, position))
     }
 
     override fun getItemCount(): Int {
         return listFruits.size
+    }
+
+    class textWatcher(
+        val etInput: EditText,
+        val listFruits: ArrayList<String>,
+        val position: Int
+    ) : TextWatcher {
+
+        val context = etInput.context
+
+        override fun afterTextChanged(p0: Editable?) {
+        }
+
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        }
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            val input = p0.toString().trim()
+
+            //listFruits[position] = input // TODO: this buggy af
+            checkIfExists(input)
+        }
+
+        private fun checkIfExists(input: String) {
+
+            val count = listFruits.count { it == input }
+
+            if (count > 1) {
+                etInput.setTextColor(ContextCompat.getColor(context, R.color.red))
+            } else {
+                etInput.setTextColor(ContextCompat.getColor(context, R.color.white))
+            }
+        }
     }
 }

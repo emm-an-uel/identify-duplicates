@@ -67,8 +67,6 @@ class RVAdapter(
         override fun afterTextChanged(p0: Editable?) {
             val input = p0.toString().trim()
             checkIfExists(input)
-
-            (context as MainActivity).updateFruit(input, position)
         }
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -87,5 +85,13 @@ class RVAdapter(
                 etInput.setTextColor(ContextCompat.getColor(context, R.color.white))
             }
         }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 }

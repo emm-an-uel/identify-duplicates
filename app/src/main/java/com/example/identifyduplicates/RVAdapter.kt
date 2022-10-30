@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
@@ -34,9 +32,24 @@ class RVAdapter(
     override fun onBindViewHolder(holder: NewViewHolder, position: Int) {
 
         val etInput = holder.etInput
+        val fruit = listFruits[position]
 
-        etInput.setText(listFruits[position])
+        etInput.setText(fruit)
         etInput.addTextChangedListener(textWatcher(etInput, listFruits, position))
+
+        checkIfExistsStart(fruit, etInput)
+    }
+
+    private fun checkIfExistsStart(input: String, etInput: EditText) {
+
+        val context = etInput.context
+        val count = listFruits.count { it == input }
+
+        if (count > 1) {
+            etInput.setTextColor(ContextCompat.getColor(context, R.color.red))
+        } else {
+            etInput.setTextColor(ContextCompat.getColor(context, R.color.white))
+        }
     }
 
     override fun getItemCount(): Int {
@@ -52,23 +65,23 @@ class RVAdapter(
         val context = etInput.context
 
         override fun afterTextChanged(p0: Editable?) {
+            val input = p0.toString().trim()
+            checkIfExists(input)
+
+            (context as MainActivity).updateFruit(input, position)
         }
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
         }
 
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            val input = p0.toString().trim()
-
-            //listFruits[position] = input // TODO: this buggy af
-            checkIfExists(input)
         }
 
         private fun checkIfExists(input: String) {
 
             val count = listFruits.count { it == input }
 
-            if (count > 1) {
+            if (count > 0) {
                 etInput.setTextColor(ContextCompat.getColor(context, R.color.red))
             } else {
                 etInput.setTextColor(ContextCompat.getColor(context, R.color.white))

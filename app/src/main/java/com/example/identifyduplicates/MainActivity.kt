@@ -5,10 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
@@ -48,15 +45,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addFruit() {
-        updateList()
-
-        val fruit = "Fruit"
-        listFruits.add(fruit)
-
-        rvAdapter.notifyDataSetChanged()
-    }
-
-    private fun updateList() {
         val updatedListFruits = arrayListOf<String>()
 
         val itemCount = rvListFruits.adapter!!.itemCount
@@ -69,7 +57,33 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val newFruit = ""
+        updatedListFruits.add(newFruit)
+
         listFruits.clear()
         listFruits.addAll(updatedListFruits)
+
+        rvAdapter.notifyDataSetChanged()
+    }
+
+    fun updateList() {
+        val updatedListFruits = arrayListOf<String>()
+
+        val itemCount = rvListFruits.adapter!!.itemCount
+        for (i in 0 until itemCount) { // add all fruits to updatedListFruits
+            val holder = rvListFruits.findViewHolderForAdapterPosition(i)
+            if (holder != null) { // TODO: adapter always returns null here
+                val editText = holder.itemView.findViewById<EditText>(R.id.etInput)
+                val fruit = editText.text.toString().trim()
+                updatedListFruits.add(fruit)
+            }
+        }
+
+        listFruits.clear()
+        listFruits.addAll(updatedListFruits)
+    }
+
+    fun updateFruit(fruit: String, position: Int) {
+        listFruits[position] = fruit // changes from old fruit to new fruit
     }
 }

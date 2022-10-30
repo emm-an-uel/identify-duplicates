@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class RVAdapter(
     private val listFruits: ArrayList<String>
-) : RecyclerView.Adapter<RVAdapterNew.NewViewHolder>() {
+) : RecyclerView.Adapter<RVAdapter.NewViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -30,6 +30,8 @@ class RVAdapter(
     }
 
     override fun onBindViewHolder(holder: NewViewHolder, position: Int) {
+
+        holder.setIsRecyclable(false)
 
         val etInput = holder.etInput
         val fruit = listFruits[position]
@@ -67,6 +69,8 @@ class RVAdapter(
         override fun afterTextChanged(p0: Editable?) {
             val input = p0.toString().trim()
             checkIfExists(input)
+
+            (context as MainActivity).updateFruit(input, position)
         }
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {

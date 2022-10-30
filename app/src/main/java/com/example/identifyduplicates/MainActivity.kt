@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var listFruits: ArrayList<String>
     lateinit var rvListFruits: RecyclerView
     lateinit var btnAdd: Button
-    lateinit var rvAdapter: RVAdapterNew
+    lateinit var rvAdapter: RVAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
 
         initializeListFruits()
         initializeRV()
+
+        showListFruits()
     }
 
     private fun initializeListFruits() {
@@ -36,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeRV() {
-        rvAdapter = RVAdapterNew(listFruits)
+        rvAdapter = RVAdapter(listFruits)
         rvListFruits.adapter = rvAdapter
     }
 
@@ -62,24 +64,20 @@ class MainActivity : AppCompatActivity() {
         rvAdapter.notifyDataSetChanged()
     }
 
-    fun updateList() {
-        val updatedListFruits = arrayListOf<String>()
-
-        val itemCount = rvListFruits.adapter!!.itemCount
-        for (i in 0 until itemCount) { // add all fruits to updatedListFruits
-            val holder = rvListFruits.findViewHolderForAdapterPosition(i)
-            if (holder != null) { // TODO: adapter always returns null here
-                val editText = holder.itemView.findViewById<EditText>(R.id.etInput)
-                val fruit = editText.text.toString().trim()
-                updatedListFruits.add(fruit)
-            }
-        }
-
-        listFruits.clear()
-        listFruits.addAll(updatedListFruits)
-    }
-
     fun updateFruit(fruit: String, position: Int) {
         listFruits[position] = fruit // changes from old fruit to new fruit
+
+        showListFruits()
+    }
+
+    private fun showListFruits() {
+        val linearLayout = findViewById<LinearLayout>(R.id.linearLayout)
+        linearLayout.removeAllViews()
+
+        for (fruit in listFruits) {
+            val textView = TextView(this)
+            textView.text = fruit
+            linearLayout.addView(textView)
+        }
     }
 }

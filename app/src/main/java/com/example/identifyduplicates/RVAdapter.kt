@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class RVAdapter(
     private val listFruits: ArrayList<String>
-) : RecyclerView.Adapter<RVAdapter.NewViewHolder>() {
+) : RecyclerView.Adapter<RVAdapterNew.NewViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

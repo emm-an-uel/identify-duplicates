@@ -1,12 +1,8 @@
 package com.example.identifyduplicates
 
-import android.graphics.Color.red
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
@@ -14,7 +10,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var listFruits: ArrayList<String>
     lateinit var rvListFruits: RecyclerView
     lateinit var btnAdd: Button
-    lateinit var rvAdapter: RVAdapter
+    lateinit var rvAdapter: RVAdapterNew
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeRV() {
-        rvAdapter = RVAdapter(listFruits)
+        rvAdapter = RVAdapterNew(listFruits)
         rvListFruits.adapter = rvAdapter
     }
 

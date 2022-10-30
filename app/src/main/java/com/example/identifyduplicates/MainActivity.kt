@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateFruit(fruit: String, position: Int) {
-        listFruits[position] = fruit // changes from old fruit to new fruit
+        listFruits[position] = fruit // updates old fruit to new fruit
 
         showListFruits()
     }

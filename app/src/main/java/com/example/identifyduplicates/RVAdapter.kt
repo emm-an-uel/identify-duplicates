@@ -68,9 +68,9 @@ class RVAdapter(
 
         override fun afterTextChanged(p0: Editable?) {
             val input = p0.toString().trim()
-            checkIfExists(input)
 
-            (context as MainActivity).updateFruit(input, position)
+            (context as MainActivity).updateFruit(input, position) // update old fruit to new fruit 
+            checkIfExists(input)
         }
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -83,7 +83,7 @@ class RVAdapter(
 
             val count = listFruits.count { it == input }
 
-            if (count > 0) {
+            if (count > 1) {
                 etInput.setTextColor(ContextCompat.getColor(context, R.color.red))
             } else {
                 etInput.setTextColor(ContextCompat.getColor(context, R.color.white))

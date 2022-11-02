@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         val updatedListFruits = arrayListOf<String>()
 
         val itemCount = rvListFruits.adapter!!.itemCount
-        for (i in 0 until itemCount) { // add all subjectColor to newListSubjectColor
+        for (i in 0 until itemCount) { // add all fruit to updatedListFruits
             val holder = rvListFruits.findViewHolderForAdapterPosition(i)
             if (holder != null) {
                 val editText = holder.itemView.findViewById<EditText>(R.id.etInput)
@@ -78,6 +78,20 @@ class MainActivity : AppCompatActivity() {
             val textView = TextView(this)
             textView.text = fruit
             linearLayout.addView(textView)
+        }
+    }
+
+    fun checkDuplicates() {
+
+        val itemCount = rvListFruits.adapter!!.itemCount
+
+        for (i in 0 until itemCount) {
+            val holder = rvListFruits.findViewHolderForAdapterPosition(i)
+            if (holder != null) {
+                val editText = holder.itemView.findViewById<EditText>(R.id.etInput)
+                val fruit = editText.text.toString().trim()
+                updatedListFruits.add(fruit)
+            }
         }
     }
 }

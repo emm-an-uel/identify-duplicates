@@ -39,10 +39,10 @@ class RVAdapter(
         etInput.setText(fruit)
         etInput.addTextChangedListener(textWatcher(etInput, listFruits, position))
 
-        checkIfExistsStart(fruit, etInput)
+        checkDuplicatesOnStart(fruit, etInput)
     }
 
-    private fun checkIfExistsStart(input: String, etInput: EditText) {
+    private fun checkDuplicatesOnStart(input: String, etInput: EditText) {
 
         val context = etInput.context
         val count = listFruits.count { it == input }
@@ -69,8 +69,9 @@ class RVAdapter(
         override fun afterTextChanged(p0: Editable?) {
             val input = p0.toString().trim()
 
-            (context as MainActivity).updateFruit(input, position) // update old fruit to new fruit 
-            checkIfExists(input)
+            (context as MainActivity).updateFruit(input, position) // update old fruit to new fruit
+
+            checkDuplicates(input) // NOTE: fruit is updated before checking for duplicates
         }
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -79,11 +80,11 @@ class RVAdapter(
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
         }
 
-        private fun checkIfExists(input: String) {
+        private fun checkDuplicates(input: String) {
 
-            val count = listFruits.count { it == input }
+            val count = listFruits.count { it == input } // counts the number of times input appears in listFruits
 
-            if (count > 1) {
+            if (count > 1) { // if it is a duplicate
                 etInput.setTextColor(ContextCompat.getColor(context, R.color.red))
             } else {
                 etInput.setTextColor(ContextCompat.getColor(context, R.color.white))

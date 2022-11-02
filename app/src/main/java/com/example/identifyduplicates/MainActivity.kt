@@ -3,6 +3,7 @@ package com.example.identifyduplicates
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
@@ -81,16 +82,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun checkDuplicates() {
+    fun checkDuplicates() { // checkDuplicates() is run in MainActivity so it can iterate through all items in rvList
 
         val itemCount = rvListFruits.adapter!!.itemCount
 
         for (i in 0 until itemCount) {
             val holder = rvListFruits.findViewHolderForAdapterPosition(i)
             if (holder != null) {
-                val editText = holder.itemView.findViewById<EditText>(R.id.etInput)
-                val fruit = editText.text.toString().trim()
-                updatedListFruits.add(fruit)
+                val etInput = holder.itemView.findViewById<EditText>(R.id.etInput)
+                val fruit = etInput.text.toString().trim()
+
+                val count = listFruits.count { it == fruit }
+
+                if (count > 1) {
+                    etInput.setTextColor(ContextCompat.getColor(this, R.color.red))
+                } else {
+                    etInput.setTextColor(ContextCompat.getColor(this, R.color.white))
+                }
             }
         }
     }
